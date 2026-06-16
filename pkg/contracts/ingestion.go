@@ -81,11 +81,12 @@ const (
 	// RejectContractViolation: request violates wire contract.
 	RejectContractViolation RejectCode = "contract_violation"
 
-	// RejectQualityGate: event fails quality gate (stale, future, dirty).
-	RejectQualityGate RejectCode = "quality_gate"
+	// RejectQualityRejected: event fails quality gate (stale, future, dirty).
+	RejectQualityRejected RejectCode = "quality_rejected"
 
 	// RejectOrderingViolation: sequence gap, reversal, or ordering_key mismatch.
 	RejectOrderingViolation RejectCode = "ordering_violation"
+	RejectUnsupportedChannel RejectCode = "unsupported_channel"
 )
 
 // IsRetryable returns true if the adapter should retry.
@@ -113,7 +114,7 @@ func AllRejectCodes() []RejectCode {
 		RejectRateLimited,
 		RejectServerUnavailable,
 		RejectContractViolation,
-		RejectQualityGate,
+		RejectQualityRejected,
 		RejectOrderingViolation,
 	}
 }
