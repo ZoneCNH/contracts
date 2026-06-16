@@ -104,7 +104,7 @@ func TestRejectCode_IsRetryable(t *testing.T) {
 		{RejectTerminalConflict, false},
 		{RejectUnauthorized, false},
 		{RejectContractViolation, false},
-		{RejectQualityGate, false},
+		{RejectQualityRejected, false},
 		{RejectOrderingViolation, false},
 	}
 	for _, tt := range tests {
