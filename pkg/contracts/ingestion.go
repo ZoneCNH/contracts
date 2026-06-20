@@ -12,7 +12,7 @@ import (
 // Transport: gRPC bidirectional stream.
 type MarketDataService interface {
 	// Ingest accepts a stream of IngestRequest and returns per-request outcomes.
-	Ingest(stream IngestRequest) (stream IngestResult, error)
+	Ingest(in IngestRequest) (IngestResult, error)
 }
 
 // IngestRequest is an immutable item submitted by an exchange adapter.
