@@ -57,7 +57,7 @@ func TestReleasePreflightRejectsWrongBranchAndDirtyTree(t *testing.T) {
 		{
 			name: "dirty tree",
 			setup: func(t *testing.T, repo string) {
-				writeFixtureFile(t, repo, "dirty.txt")
+				writeRepoFile(t, repo, "dirty.txt", "dirty\n")
 			},
 			wantError: "ERROR: release preflight requires a clean git worktree",
 		},
@@ -166,9 +166,13 @@ func newReleasePreflightRepo(t *testing.T, withOrigin bool, withChangelog bool) 
 		runGit(t, tempDir, "init", "--bare", origin)
 
 		repo := filepath.Join(tempDir, "repo")
-		runGit(t, tempDir, "clone", origin, repo)
+		mkdirAll(t, repo)
+		mkdirAll(t, filepath.Join(repo, "scripts"))
+		copyFile(t, "check_release_preflight.sh", filepath.Join(repo, "scripts", "check_release_preflight.sh"), 0o755)
+		runGit(t, repo, "init", "-b", "main")
 		runGit(t, repo, "config", "user.name", "Release Preflight Test")
 		runGit(t, repo, "config", "user.email", "release-preflight@example.com")
+		runGit(t, repo, "remote", "add", "origin", origin)
 
 		writeRepoFile(t, repo, "README.md", "test fixture\n")
 		if withChangelog {
@@ -178,13 +182,14 @@ func newReleasePreflightRepo(t *testing.T, withOrigin bool, withChangelog bool) 
 		}
 		runGit(t, repo, "add", ".")
 		runGit(t, repo, "commit", "-m", "initial release preflight fixture")
-		runGit(t, repo, "branch", "-M", "main")
 		runGit(t, repo, "push", "-u", "origin", "main")
 		return repo
 	}
 
 	repo := filepath.Join(tempDir, "repo")
 	mkdirAll(t, repo)
+	mkdirAll(t, filepath.Join(repo, "scripts"))
+	copyFile(t, "check_release_preflight.sh", filepath.Join(repo, "scripts", "check_release_preflight.sh"), 0o755)
 	runGit(t, repo, "init", "-b", "main")
 	runGit(t, repo, "config", "user.name", "Release Preflight Test")
 	runGit(t, repo, "config", "user.email", "release-preflight@example.com")
