@@ -16,7 +16,7 @@ type SignalIntent struct {
 	// CardID links this intent back to the DecisionCard that drove it.
 	CardID string `json:"card_id"`
 
-	// Symbol is the normalized instrument identifier (e.g. "BTCUSDT").
+	// Symbol is the normalized instrument identifier (e.g. "sym-001").
 	Symbol string `json:"symbol"`
 
 	// Action mirrors DecisionCard.Action (A-E) for downstream audit.

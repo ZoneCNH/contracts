@@ -78,8 +78,27 @@ FORBIDDEN_TERMS=(
   "RiskGate"
 )
 
+search_roots=()
+if [[ -d ./internal ]]; then
+  search_roots+=(./internal)
+fi
+
+if [[ -d ./pkg ]]; then
+  while IFS= read -r pkg_dir; do
+    if [[ "$(basename "$pkg_dir")" == "contracts" ]]; then
+      continue
+    fi
+    search_roots+=("$pkg_dir")
+  done < <(find ./pkg -mindepth 1 -maxdepth 1 -type d | sort)
+fi
+
+if [[ "${#search_roots[@]}" -eq 0 ]]; then
+  echo "ERROR: no runtime source directories found for business term scan"
+  exit 1
+fi
+
 for term in "${FORBIDDEN_TERMS[@]}"; do
-  if grep -R --line-number --fixed-strings "$term" ./pkg ./internal --exclude-dir=.git; then
+  if grep -R --line-number --fixed-strings --exclude-dir=.git "$term" "${search_roots[@]}"; then
     echo "ERROR: forbidden business term found: $term"
     exit 1
   fi

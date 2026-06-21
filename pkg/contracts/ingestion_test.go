@@ -12,14 +12,14 @@ func TestIngestRequest_JSONRoundTrip(t *testing.T) {
 		RequestID:     "req-001",
 		Source:        "binance",
 		ProductLine:   "spot",
-		InstrumentKey: json.RawMessage(`{"venue":"binance","symbol":"BTCUSDT"}`),
+		InstrumentKey: json.RawMessage(`{"venue":"binance","symbol":"sym-001"}`),
 		EventType:     "trade",
 		EventTime:     now,
 		ReceivedAt:    now.Add(10 * time.Millisecond),
 		SchemaVersion: "1.0.0",
 		Payload:       json.RawMessage(`{"price":"50000","qty":"1.5"}`),
 		Sequence:      12345,
-		OrderingKey:   "binance:spot:BTCUSDT:trade",
+		OrderingKey:   "binance:spot:sym-001:trade",
 		SourceMetadata: map[string]string{
 			"stream_id":         "s-001",
 			"connector_version": "0.1.0",
@@ -94,7 +94,7 @@ func TestIngestResult_Reject(t *testing.T) {
 
 func TestRejectCode_IsRetryable(t *testing.T) {
 	tests := []struct {
-		code     RejectCode
+		code      RejectCode
 		retryable bool
 	}{
 		{RejectRetryable, true},
@@ -106,6 +106,7 @@ func TestRejectCode_IsRetryable(t *testing.T) {
 		{RejectContractViolation, false},
 		{RejectQualityRejected, false},
 		{RejectOrderingViolation, false},
+		{RejectUnsupportedChannel, false},
 	}
 	for _, tt := range tests {
 		t.Run(string(tt.code), func(t *testing.T) {
@@ -116,9 +117,40 @@ func TestRejectCode_IsRetryable(t *testing.T) {
 	}
 }
 
+func TestRejectCode_IsTerminal(t *testing.T) {
+	tests := []struct {
+		code     RejectCode
+		terminal bool
+	}{
+		{RejectRetryable, false},
+		{RejectRateLimited, false},
+		{RejectServerUnavailable, false},
+		{RejectTerminalValidation, true},
+		{RejectUnsupportedChannel, true},
+	}
+	for _, tt := range tests {
+		t.Run(string(tt.code), func(t *testing.T) {
+			if got := tt.code.IsTerminal(); got != tt.terminal {
+				t.Errorf("%s.IsTerminal() = %v, want %v", tt.code, got, tt.terminal)
+			}
+		})
+	}
+}
+
 func TestAllRejectCodes(t *testing.T) {
 	codes := AllRejectCodes()
-	if len(codes) != 9 {
-		t.Errorf("expected 9 reject codes, got %d", len(codes))
+	if len(codes) != 10 {
+		t.Errorf("expected 10 reject codes, got %d", len(codes))
+	}
+
+	foundUnsupported := false
+	for _, code := range codes {
+		if code == RejectUnsupportedChannel {
+			foundUnsupported = true
+			break
+		}
+	}
+	if !foundUnsupported {
+		t.Error("expected RejectUnsupportedChannel in AllRejectCodes")
 	}
 }

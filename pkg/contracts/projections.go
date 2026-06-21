@@ -6,7 +6,7 @@ type (
 	RegimeCardEvent     = RegimeCard
 	DecisionCardEvent   = DecisionCard
 
-	MarketRegimePort = MarketDataProvider
-	MacroRegimePort  = MacroDataProvider
-	RegimeEnginePort = DecisionCardProvider
+	MarketDataProviderPort = MarketDataProvider
+	MacroDataProviderPort  = MacroDataProvider
+	RegimeEnginePort       = DecisionCardProvider
 )

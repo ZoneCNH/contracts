@@ -121,6 +121,7 @@ scan_template_placeholders() {
 scan_template_placeholders
 scan_fixed "github.com/ZoneCNH/xlib-standard" "module path"
 scan_fixed "github.com/ZoneCNH/baselib-template" "module path"
+scan_fixed "github.com/ZoneCNH/contracts" "module path"
 
 if [[ "$module_name" != "xlib-standard" ]]; then
   scan_fixed "xlib-standard" "module name"

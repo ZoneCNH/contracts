@@ -10,12 +10,12 @@ import (
 
 func TestRegimeSnapshot_JSONRoundTrip(t *testing.T) {
 	snap := RegimeSnapshot{
-		SnapshotID:     "550e8400-e29b-41d4-a716-446655440000",
-		Symbol:         "BTCUSDT",
-		RegimeState:    MarketStateS1Bull,
-		Bias:           BiasLong,
+		SnapshotID:      "550e8400-e29b-41d4-a716-446655440000",
+		Symbol:          "sym-001",
+		RegimeState:     MarketStateS1Bull,
+		Bias:            BiasLong,
 		TradePermission: TradePermissionAllowNormal,
-		Confidence:     0.87,
+		Confidence:      0.87,
 		FiveDimScores: FiveDimScores{
 			Trend:      0.75,
 			Leverage:   0.60,
@@ -140,9 +140,9 @@ func TestDecisionCard_JSONRoundTrip(t *testing.T) {
 		Profile:     ProfileAggressive,
 		Template:    TemplateTrendFollowing,
 		RiskTier:    5,
-		PositionCaps: PositionCaps{
+		ExposureCaps: ExposureCaps{
 			MaxLeverage:    3.0,
-			MaxPositionPct: 0.20,
+			MaxExposurePct: 0.20,
 		},
 		RiskMultiplier: 1.0,
 		Conflict:       false,
@@ -165,11 +165,52 @@ func TestDecisionCard_JSONRoundTrip(t *testing.T) {
 	if got.RiskTier != 5 {
 		t.Errorf("RiskTier: got %d want 5", got.RiskTier)
 	}
-	if got.PositionCaps.MaxLeverage != 3.0 {
-		t.Errorf("MaxLeverage: got %v want 3.0", got.PositionCaps.MaxLeverage)
+	if got.ExposureCaps.MaxLeverage != 3.0 {
+		t.Errorf("MaxLeverage: got %v want 3.0", got.ExposureCaps.MaxLeverage)
 	}
 	if got.Conflict {
 		t.Error("Conflict: expected false")
+	}
+}
+
+func TestDecisionCard_LegacyPositionCapsMarshalAndUnmarshal(t *testing.T) {
+	dc := DecisionCard{
+		CardID:         "card-legacy",
+		GeneratedAt:    1718870400001,
+		MarketState:    MarketStateS2ShortSqueeze,
+		MacroState:     MacroStateM2Recovery,
+		Action:         ActionB,
+		Profile:        ProfileModerate,
+		Template:       TemplateBreakout,
+		RiskTier:       4,
+		PositionCaps:   ExposureCaps{MaxLeverage: 1.75, MaxExposurePct: 0.12},
+		RiskMultiplier: 0.8,
+		Conflict:       false,
+		Explain:        "legacy caller still populates PositionCaps",
+	}
+
+	b, err := json.Marshal(dc)
+	if err != nil {
+		t.Fatalf("marshal: %v", err)
+	}
+
+	var got DecisionCard
+	if err := json.Unmarshal(b, &got); err != nil {
+		t.Fatalf("unmarshal: %v", err)
+	}
+
+	if got.ExposureCaps != dc.PositionCaps {
+		t.Errorf("ExposureCaps: got %+v want %+v", got.ExposureCaps, dc.PositionCaps)
+	}
+	if got.PositionCaps != dc.PositionCaps {
+		t.Errorf("PositionCaps: got %+v want %+v", got.PositionCaps, dc.PositionCaps)
+	}
+}
+
+func TestDecisionCard_UnmarshalJSONError(t *testing.T) {
+	var got DecisionCard
+	if err := json.Unmarshal([]byte(`{"card_id":{}}`), &got); err == nil {
+		t.Fatal("expected type-mismatched JSON to fail")
 	}
 }
 
@@ -184,7 +225,7 @@ func TestDecisionCard_Conflict(t *testing.T) {
 		Profile:        ProfileDefensive,
 		Template:       TemplateHedge,
 		RiskTier:       1,
-		PositionCaps:   PositionCaps{MaxLeverage: 0.5, MaxPositionPct: 0.05},
+		ExposureCaps:   ExposureCaps{MaxLeverage: 0.5, MaxExposurePct: 0.05},
 		RiskMultiplier: 0.3,
 		Conflict:       true,
 		Explain:        "M6(credit deleveraging) conflicts with S1(bull); forced defensive",

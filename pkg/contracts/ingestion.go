@@ -9,9 +9,9 @@ import (
 
 // MarketDataService receives normalized upstream market-data ingestion requests
 // from exchange adapters (e.g. module/binance).
-// Transport: gRPC bidirectional stream.
+// Transport: gRPC unary request/response.
 type MarketDataService interface {
-	// Ingest accepts a stream of IngestRequest and returns per-request outcomes.
+	// Ingest accepts one IngestRequest and returns one IngestResult.
 	Ingest(in IngestRequest) (IngestResult, error)
 }
 
@@ -86,6 +86,7 @@ const (
 
 	// RejectOrderingViolation: sequence gap, reversal, or ordering_key mismatch.
 	RejectOrderingViolation RejectCode = "ordering_violation"
+	// RejectUnsupportedChannel: caller used an unsupported transport or channel.
 	RejectUnsupportedChannel RejectCode = "unsupported_channel"
 )
 
@@ -104,7 +105,7 @@ func (c RejectCode) IsTerminal() bool {
 	return !c.IsRetryable()
 }
 
-// AllRejectCodes returns all 9 canonical RejectCode values.
+// AllRejectCodes returns all 10 canonical RejectCode values.
 func AllRejectCodes() []RejectCode {
 	return []RejectCode{
 		RejectRetryable,
@@ -116,5 +117,6 @@ func AllRejectCodes() []RejectCode {
 		RejectContractViolation,
 		RejectQualityRejected,
 		RejectOrderingViolation,
+		RejectUnsupportedChannel,
 	}
 }

@@ -23,3 +23,16 @@ func TestRenderTemplateExcludesGeneratedDebtArtifacts(t *testing.T) {
 		}
 	}
 }
+
+func TestRenderTemplateRewritesModulePath(t *testing.T) {
+	contents, err := os.ReadFile("render_template.sh")
+	if err != nil {
+		t.Fatalf("read render_template.sh: %v", err)
+	}
+
+	script := string(contents)
+	want := "replace_in_text_files 'github.com/ZoneCNH/contracts' \"$module_path\""
+	if !strings.Contains(script, want) {
+		t.Fatalf("render_template.sh missing module path rewrite %q", want)
+	}
+}

@@ -10,7 +10,7 @@ package contracts
 type RegimeSnapshot struct {
 	// SnapshotID is a UUID v4 uniquely identifying this snapshot.
 	SnapshotID string `json:"snapshot_id"`
-	// Symbol is the normalized instrument identifier (e.g. "BTCUSDT").
+	// Symbol is the normalized instrument identifier (e.g. "sym-001").
 	Symbol string `json:"symbol"`
 	// RegimeState is the classified market state (S1–S7, UNKNOWN, or DISLOCATED).
 	RegimeState MarketState `json:"regime_state"`

@@ -25,8 +25,8 @@ type Command struct {
 
 // Query represents a domain query.
 type Query struct {
-	ID     string `json:"id"`
-	Type   string `json:"type"`
+	ID     string            `json:"id"`
+	Type   string            `json:"type"`
 	Filter map[string]string `json:"filter,omitempty"`
 }
 
@@ -42,8 +42,8 @@ type Port interface {
 
 // ErrorCode represents a registered error code in the contract registry.
 type ErrorCode struct {
-	Code     string `json:"code"`
-	Domain   string `json:"domain"`
-	Severity string `json:"severity"`
-	Retryable bool  `json:"retryable"`
+	Code      string `json:"code"`
+	Domain    string `json:"domain"`
+	Severity  string `json:"severity"`
+	Retryable bool   `json:"retryable"`
 }

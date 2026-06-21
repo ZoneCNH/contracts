@@ -12,7 +12,7 @@ func TestSignalIntent_JSONRoundTrip(t *testing.T) {
 		ID:          "uuid-001",
 		GeneratedAt: 1718900000000,
 		CardID:      "card-001",
-		Symbol:      "BTCUSDT",
+		Symbol:      "sym-001",
 		Action:      contracts.ActionA,
 		Template:    contracts.TemplateTrendFollowing,
 		Strength:    0.85,

@@ -2,5 +2,5 @@ package templatex
 
 const (
 	ModuleName = "github.com/ZoneCNH/contracts"
-	Version    = "v0.4.7"
+	Version    = "v0.4.8"
 )
