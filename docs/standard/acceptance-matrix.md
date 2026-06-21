@@ -1,5 +1,9 @@
 # Acceptance Matrix
 
+## 版本
+
+- 当前发布版本：`v0.4.7`
+
 | Tier | Gate | Command |
 | --- | --- | --- |
 | P0 | Governance | `XLIB_CONTEXT=local_write GOWORK=off make governance-check` |

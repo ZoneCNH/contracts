@@ -6,6 +6,10 @@
 
 contracts 遵循 xlib-standard 的治理协议，但不是标准源、不是 generator、不是模板仓库。contracts 不拥有传输实现，不绑定具体通信协议。
 
+## 版本
+
+- 当前发布版本：`v0.4.7`
+
 ## 核心内容
 
 - **端口接口**: MarketDataProvider, MacroDataProvider 等跨域稳定端口
@@ -16,4 +20,4 @@ contracts 遵循 xlib-standard 的治理协议，但不是标准源、不是 gen
 
 ## 规格
 
-完整模块规格见 [ZoneCNH/ZoneCNH module/contracts/SPEC.md](https://github.com/ZoneCNH/ZoneCNH/blob/main/module/contracts/SPEC.md)。
+完整模块规格见 [docs/spec.md](docs/spec.md)。

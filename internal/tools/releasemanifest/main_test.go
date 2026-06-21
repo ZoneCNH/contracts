@@ -1383,7 +1383,7 @@ func TestToolVersionReportsMissingBinary(t *testing.T) {
 
 func TestWorkflowEvidenceBuildsGitHubAndLocalURLs(t *testing.T) {
 	server := "https://github.com/"
-	repo := "/ZoneCNH/xlib-standard/"
+	repo := "/ZoneCNH/contracts/"
 	t.Setenv("WORKFLOW_RUN_ID", "123")
 	t.Setenv("GITHUB_SERVER_URL", server)
 	t.Setenv("GITHUB_REPOSITORY", repo)

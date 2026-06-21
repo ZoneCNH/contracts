@@ -4,6 +4,10 @@
 
 对齐独立标准仓库 [`xlib-standard`](https://github.com/ZoneCNH/xlib-standard)，并在同一仓库中提供 Go 参考模板、generator、Harness 和 Evidence Runtime。
 
+## 版本
+
+- 当前发布版本：`v0.4.7`
+
 ## 需求
 
 - 提供可编译 Go 模板、contracts、examples、CI workflow、Harness Gate、Evidence artifact、release 和复盘模板。

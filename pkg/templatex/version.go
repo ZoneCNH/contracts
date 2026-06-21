@@ -1,6 +1,6 @@
 package templatex
 
 const (
-	ModuleName = "github.com/ZoneCNH/xlib-standard"
+	ModuleName = "github.com/ZoneCNH/contracts"
 	Version    = "v0.4.7"
 )

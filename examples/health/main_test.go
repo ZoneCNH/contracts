@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ZoneCNH/xlib-standard/pkg/templatex"
+	"github.com/ZoneCNH/contracts/pkg/templatex"
 )
 
 func TestMainPrintsHealthyStatus(t *testing.T) {

@@ -11,9 +11,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ZoneCNH/xlib-standard/internal/goalruntime"
-	"github.com/ZoneCNH/xlib-standard/internal/releasequality"
-	"github.com/ZoneCNH/xlib-standard/pkg/templatex"
+	"github.com/ZoneCNH/contracts/internal/goalruntime"
+	"github.com/ZoneCNH/contracts/internal/releasequality"
+	"github.com/ZoneCNH/contracts/pkg/templatex"
 )
 
 func TestMainDispatchesUsageHelpAndUnknownCommand(t *testing.T) {
@@ -675,11 +675,11 @@ func TestMakefileBaselineRequiresExecutionContext(t *testing.T) {
 		t.Fatalf("write Makefile: %v", err)
 	}
 
-	registry := "schema_version: \"2.9.3\"\nmodule: xlib-standard\ntargets:\n  - " + strings.Join(staleTargets, "\n  - ") + "\n"
+	registry := "schema_version: \"2.9.3\"\nmodule: github.com/ZoneCNH/contracts\ntargets:\n  - " + strings.Join(staleTargets, "\n  - ") + "\n"
 	if err := os.WriteFile(filepath.Join(root, ".agent", "makefile-target-registry.yaml"), []byte(registry), 0o644); err != nil {
 		t.Fatalf("write makefile target registry: %v", err)
 	}
-	baseline := "schema_version: \"2.9.3\"\nmodule: xlib-standard\nbaseline_targets:\n"
+	baseline := "schema_version: \"2.9.3\"\nmodule: github.com/ZoneCNH/contracts\nbaseline_targets:\n"
 	for _, target := range staleTargets {
 		baseline += "  " + target + ": fixture\n"
 	}
@@ -862,7 +862,7 @@ func TestRunGovernanceCommands(t *testing.T) {
 		}
 		if report.Command != "version" ||
 			report.Status != "passed" ||
-			!slicesContain(report.Details, "xlib-standard release v0.4.7") ||
+			!slicesContain(report.Details, "contracts release v0.4.7") ||
 			!slicesContain(report.Details, "goalcli governance runtime v2.9.3") {
 			t.Fatalf("report = %#v; want version gate report", report)
 		}
@@ -972,7 +972,7 @@ func TestRunExternalErrorPaths(t *testing.T) {
 func TestRunDoctorAllowsRenderedDownstreamWithoutSourceGoal(t *testing.T) {
 	root := t.TempDir()
 	files := map[string]string{
-		"go.mod":                                "module github.com/ZoneCNH/kernel\n\nreplace github.com/ZoneCNH/xlib-standard => ../xlib-standard\n",
+		"go.mod":                                "module github.com/ZoneCNH/kernel\n\nreplace github.com/ZoneCNH/contracts => ../contracts\n",
 		".agent/harness.yaml":                   "checks: [version, doctor]\n",
 		".agent/issue-registry.yaml":            issueRegistryFixture("P0-001", "P1-001", "P2-001", "CTX-001"),
 		".agent/command-registry.yaml":          "commands: [version, doctor]\n",
@@ -1737,6 +1737,8 @@ func TestVersionConstantsTrackChangelogRelease(t *testing.T) {
 		"internal/tools/releasemanifest/main.go",
 		".agent/harness.yaml",
 		"README.md",
+		"docs/spec.md",
+		"docs/standard/acceptance-matrix.md",
 		"docs/release.md",
 		"AGENTS.md",
 	} {
