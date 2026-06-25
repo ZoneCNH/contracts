@@ -12,6 +12,14 @@
 
 ## 未发布
 
+### 新增契约
+
+- 在 `pkg/contracts/alert.go` 新增告警契约（`AlertEvent` / `AlertRule` / `Severity` / `AlertStatus` / `AlertSink` / `AlertRuleStore`），为 `alertx` 告警引擎提供跨域稳定输入面。对应 Go module minor bump（待 v1.6.0 tag）。设计来源：`module/alertx/ADR-001-foundations.md`（双订阅 + YAML DSL）。`Severity` 三态映射 `docs/goal/rsi-standard/23` 的 I0–I5 事件分级。
+
+### 兼容性
+
+- 新增 `pkg/contracts/alert.go` 是纯新增公共类型，不破坏既有 `pkg/contracts` API（向后兼容，分类：minor 新增）。
+
 ## v0.4.7 - 2026-06-21
 
 ### 治理
