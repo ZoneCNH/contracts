@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/ZoneCNH/xlib-standard/pkg/templatex"
+	"github.com/ZoneCNH/contracts/pkg/templatex"
 )
 
 func main() {
