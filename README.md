@@ -17,3 +17,7 @@ contracts 遵循 xlib-standard 的治理协议，但不是标准源、不是 gen
 ## 规格
 
 完整模块规格见 [ZoneCNH/ZoneCNH module/contracts/SPEC.md](https://github.com/ZoneCNH/ZoneCNH/blob/main/module/contracts/SPEC.md)。
+
+## 版本
+
+当前版本：v0.4.6

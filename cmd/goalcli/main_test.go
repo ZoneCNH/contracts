@@ -11,9 +11,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ZoneCNH/xlib-standard/internal/goalruntime"
-	"github.com/ZoneCNH/xlib-standard/internal/releasequality"
-	"github.com/ZoneCNH/xlib-standard/pkg/templatex"
+	"github.com/ZoneCNH/contracts/internal/goalruntime"
+	"github.com/ZoneCNH/contracts/internal/releasequality"
+	"github.com/ZoneCNH/contracts/pkg/templatex"
 )
 
 func TestMainDispatchesUsageHelpAndUnknownCommand(t *testing.T) {

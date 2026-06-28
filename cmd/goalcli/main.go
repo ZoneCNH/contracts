@@ -8,7 +8,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/ZoneCNH/xlib-standard/internal/releasequality"
+	"github.com/ZoneCNH/contracts/internal/releasequality"
 )
 
 func main() {
