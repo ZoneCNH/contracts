@@ -184,7 +184,7 @@ type mockAlertSink struct{}
 func (m *mockAlertSink) IsPort() bool { return true }
 
 func (m *mockAlertSink) SubscribeAlerts(ctx context.Context) (<-chan contracts.AlertEvent, error) {
-	return nil, nil
+	return make(chan contracts.AlertEvent), nil
 }
 
 func TestAlertRuleStore_Interface(t *testing.T) {
@@ -196,5 +196,5 @@ type mockRuleStore struct{}
 func (m *mockRuleStore) IsPort() bool { return true }
 
 func (m *mockRuleStore) Load(ctx context.Context) ([]contracts.AlertRule, error) {
-	return nil, nil
+	return make(chan contracts.AlertEvent), nil
 }
