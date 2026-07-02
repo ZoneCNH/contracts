@@ -2,7 +2,7 @@
 
 ## 项目概述
 
-本仓库是 Go 1.23 基础库标准与交付运行时，模块路径为 `github.com/ZoneCNH/xlib-standard`，承担五类职责：**Standard Source**、**Go Reference Template**、**Generator**、**Harness** 和 **Evidence Runtime**。旧名 `baselib-template` / `foundationx` 仅允许出现在迁移文档中。
+本仓库是 Go 1.23 contracts 契约库与交付运行时，模块路径为 `github.com/ZoneCNH/contracts`，承担契约定义、门禁验证、示例验证和发布证据四类职责。旧名 `baselib-template` / `foundationx` 仅允许出现在迁移文档中。
 
 ## 项目结构与模块组织
 
@@ -58,7 +58,7 @@ go test ./... -run 'Test.*Golden|Test.*Snapshot'       # golden 测试
 ```bash
 GOWORK=off make release-check
 XLIB_CONTEXT=release_verify GOWORK=off make release-final-check
-XLIB_CONTEXT=release_verify GOWORK=off make release-preflight VERSION=v0.4.6
+XLIB_CONTEXT=release_verify GOWORK=off make release-preflight VERSION=v0.4.7
 make evidence                                    # 生成 release/manifest/latest.json
 ```
 
