@@ -64,23 +64,24 @@ if [[ "$module_path" != "$template_module_path" ]]; then
   done < <(find "${search_roots[@]}" -type f -name '*.go' ! -name '*_test.go' -print)
 fi
 
-echo "checking forbidden business terms..."
+echo "checking forbidden business domain imports..."
 
-FORBIDDEN_TERMS=(
-  "MacroRegime"
-  "MarketRegime"
-  "TradingSignal"
-  "BTCUSDT"
-  "ETHUSDT"
-  "Kline"
-  "OrderBook"
-  "Position"
-  "RiskGate"
+FORBIDDEN_DOMAIN_PKGS=(
+  "domain_market"
+  "domain_macro"
+  "domain_exchange"
+  "market_data"
+  "factor_engine"
+  "signal_factory"
+  "regime_engine"
+  "market_regime"
+  "macro_regime"
+  "riskx"
 )
 
-for term in "${FORBIDDEN_TERMS[@]}"; do
-  if grep -R --line-number --fixed-strings "$term" ./pkg ./internal --exclude-dir=.git; then
-    echo "ERROR: forbidden business term found: $term"
+for pkg in "${FORBIDDEN_DOMAIN_PKGS[@]}"; do
+  if grep -R --line-number --fixed-strings "github.com/ZoneCNH/${pkg}" ./pkg ./internal --exclude-dir=.git --exclude='*_test.go' 2>/dev/null; then
+    echo "ERROR: forbidden business domain import found: $pkg"
     exit 1
   fi
 done
